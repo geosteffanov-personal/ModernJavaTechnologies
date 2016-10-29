@@ -6,25 +6,44 @@ import java.util.Scanner;
 public class Menu {
 	private ToDo toDoList;
 	
-	public Menu(ToDo toDoList) {
-		this.toDoList = toDoList;
-	}
-	
 	private String printMainMenu() {
 		StringBuilder result = new StringBuilder();
+		result.append("\n\n---------------------\n");
 		result.append("Choose an option:\n\n");
 		result.append("1) Tasks ordered by priority\n");
 		result.append("2) Tasks in process\n");
 		result.append("3) Tasks in the upcoming 3 days\n");
 		result.append("4) Exit\n");
+		result.append("\n\nInput a number(1-4):");
 		
 		return result.toString();
+	}
+	
+	private String parseInput(final int input) throws IllegalArgumentException {
+		 	
+			switch(input) {
+			case 1:
+				return "\n\n" + toDoList.printInPriority() + "\n\n";
+			case 2:
+				return "\n\n" + toDoList.printInProcess() + "\n\n";
+			case 3:
+				return "\n\n" + toDoList.printUpcoming(3) + "\n\n";
+			case 4:
+				return "";
+			default:
+				throw new IllegalArgumentException("Illegal argument: " + input);
+				
+			}
+	 }
+	
+	public Menu(ToDo toDoList) {
+		this.toDoList = toDoList;
 	}
 	
 	public void start() {
 		Scanner input = new Scanner(System.in);
 		while(true) {
-			System.out.println(printMainMenu() + "\n\n");
+			System.out.println(printMainMenu());
 			int userInput = input.nextInt();
 			
 			try {
@@ -40,26 +59,22 @@ public class Menu {
 		}
 	}
 		
-	 private String parseInput(final int input) throws IllegalArgumentException {
-			switch(input) {
-			case 1:
-				return toDoList.printInPriority() + "\n\n\n";
-			case 2:
-				return toDoList.printInProcess() + "\n\n\n";
-			case 3:
-				return toDoList.printUpcoming(3) + "\n\n\n";
-			case 4:
-				return "";
-			default:
-				throw new IllegalArgumentException("Illegal argument!");
-			}
-	 }
-	
 	
 	public static void main(String args[]) {
-		String[] titles = { "Note 1", "Note 2", "Note 3", "Note 4", "Note 5", "Note 6", "Note 7" };
+		String[] titles = { "Walk the dog",
+							"Register at the local event",
+							"Write homework", "Learn Java",
+							"Watch movies",
+							"Study math",
+							"Phone mom" };
 
-		String[] descriptions = { "Desc 1", "Desc 2", "Desc 3", "Desc 4", "Desc 5", "Desc 6", "Desc 7" };
+		String[] descriptions = { "Take the dog outside in the park",
+								  "There may be free food",
+								  "Page 384, ex. 1-7",
+								  "Threads and Networking",
+								  "Doctor Strange or maybe Bourne?",
+								  "Cardinals and the axiom of choice",
+								  "" };
 
 		Status[] statuses = { Status.INITIAL, Status.DONE, Status.INITIAL, Status.IN_PROCESS, Status.IN_PROCESS,
 				Status.DONE, Status.INITIAL };
