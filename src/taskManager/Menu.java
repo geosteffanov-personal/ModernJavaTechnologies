@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.Scanner;
 
 public class Menu {
+	private static final int THREE_DAYS = 3;
 	private ToDo toDoList;
 
 	private String printMainMenu() {
@@ -27,7 +28,7 @@ public class Menu {
 		case 2:
 			return "\n\n" + toDoList.printInProcess() + "\n\n";
 		case 3:
-			return "\n\n" + toDoList.printUpcoming(3) + "\n\n";
+			return "\n\n" + toDoList.printUpcoming(THREE_DAYS) + "\n\n";
 		case 4:
 			return "";
 		default:
