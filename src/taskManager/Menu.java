@@ -6,6 +6,7 @@ import java.util.Scanner;
 public class Menu {
 	private static final int THREE_DAYS = 3;
 	private ToDo toDoList;
+	 static boolean b;
 
 	private String printMainMenu() {
 		StringBuilder result = new StringBuilder();
