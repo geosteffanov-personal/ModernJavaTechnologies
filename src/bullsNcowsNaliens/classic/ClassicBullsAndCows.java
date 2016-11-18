@@ -5,7 +5,7 @@ import java.util.Scanner;
 import bullsNcowsNaliens.Cowtainer;
 import bullsNcowsNaliens.GenericFactory;
 
-public class TestClassicBullsAndCows {
+public class ClassicBullsAndCows {
 
 	public static void main(String args[]) {
 		GenericFactory<CharRepresentable> testFactory = new ClassicFactory();
