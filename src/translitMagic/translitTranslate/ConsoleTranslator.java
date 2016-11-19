@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.regex.Pattern;
 
 public class ConsoleTranslator {
 	private FileWriter writer;
@@ -12,7 +11,7 @@ public class ConsoleTranslator {
 	String hello;
 
 	private void updateLast(char newChar) {
-			lastChars = lastChars.substring(1) + newChar;
+		lastChars = lastChars.substring(1) + newChar;
 	}
 
 	private boolean reachedEnd() {
@@ -25,9 +24,8 @@ public class ConsoleTranslator {
 
 	public void read() {
 		File symbolTable = new File("src/translitMagic/translitTranslate/latin-ciryllic.config");
-		try {
-			Translator translator = new Translator(symbolTable);
-			TranslitReader channel = new TranslitReader(new InputStreamReader(System.in), translator);
+		Translator translator = new Translator(symbolTable);
+		try (TranslitReader channel = new TranslitReader(new InputStreamReader(System.in, "UTF-8"), translator)) {
 			int currentChar = 0;
 			while (!reachedEnd()) {
 				currentChar = channel.read();
@@ -36,7 +34,6 @@ public class ConsoleTranslator {
 				writer.flush();
 				updateLast(symbol);
 			}
-			channel.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -44,10 +41,9 @@ public class ConsoleTranslator {
 	}
 
 	public static void main(String args[]) throws IOException {
-		FileWriter writer = new FileWriter(new File("src/translitMagic/translitTranslate/output.txt"));
+		FileWriter writer = new FileWriter(new File("src/translitMagic/translitTranslate/shliokavica.txt"));
 		ConsoleTranslator translator = new ConsoleTranslator(writer);
 		translator.read();
 	}
 
 }
-

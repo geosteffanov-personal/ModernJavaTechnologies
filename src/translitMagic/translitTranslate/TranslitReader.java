@@ -37,15 +37,13 @@ public class TranslitReader extends Reader {
 
 	public static void main(String args[]) {
 		File symbolTable = new File("src/translitMagic/translitTranslate/latin-ciryllic.config");
-		try {
-			Translator translator = new Translator(symbolTable);
-			TranslitReader channel = new TranslitReader(new InputStreamReader(System.in), translator);
+		Translator translator = new Translator(symbolTable);
+		try (TranslitReader channel = new TranslitReader(new InputStreamReader(System.in, "UTF-8"), translator)) {
 			int currentChar = 0;
 			while (currentChar != -1) {
 				currentChar = channel.read();
-					System.out.print(new Character((char) currentChar));
+				System.out.print(new Character((char) currentChar));
 			}
-			channel.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
