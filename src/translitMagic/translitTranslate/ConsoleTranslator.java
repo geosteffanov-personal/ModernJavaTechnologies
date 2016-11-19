@@ -8,14 +8,13 @@ import java.io.InputStreamReader;
 public class ConsoleTranslator {
 	private FileWriter writer;
 	private String lastChars = "      ";
-	String hello;
 
 	private void updateLast(char newChar) {
 		lastChars = lastChars.substring(1) + newChar;
 	}
 
 	private boolean reachedEnd() {
-		return lastChars.matches("[\\s!,\\.]край[\\s!,\\.]");
+		return lastChars.matches("[\\s!,\\.?]край[\\s!,\\.?]");
 	}
 
 	public ConsoleTranslator(FileWriter writer) {
@@ -45,5 +44,4 @@ public class ConsoleTranslator {
 		ConsoleTranslator translator = new ConsoleTranslator(writer);
 		translator.read();
 	}
-
 }

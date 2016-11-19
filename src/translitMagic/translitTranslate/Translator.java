@@ -4,11 +4,13 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
 public class Translator {
-	private HashMap<Character, Character> symbolTable;
+	private Map<Character, Character> symbolTable;
 
 	private void setUp(BufferedReader reader) {
 		String line = null;
@@ -48,7 +50,7 @@ public class Translator {
 
 	public Translator(File configFile) {
 		try (BufferedReader reader = new BufferedReader(new FileReader(configFile))) {
-			symbolTable = new HashMap<Character, Character>();
+			symbolTable = new LinkedHashMap<Character, Character>();
 			setUp(reader);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

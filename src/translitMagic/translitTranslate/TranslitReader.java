@@ -1,6 +1,7 @@
 package translitMagic.translitTranslate;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -29,7 +30,7 @@ public class TranslitReader extends Reader {
 		int result = in.read();
 
 		if (result != -1) {
-			return translator.translate(new Character((char) result));
+			return translator.translate((char) result);
 		}
 
 		return -1;
@@ -42,7 +43,7 @@ public class TranslitReader extends Reader {
 			int currentChar = 0;
 			while (currentChar != -1) {
 				currentChar = channel.read();
-				System.out.print(new Character((char) currentChar));
+				System.out.print((char) currentChar);
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
