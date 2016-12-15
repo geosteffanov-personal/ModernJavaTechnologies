@@ -1,6 +1,5 @@
 package bullsNcowsNaliens;
 
-import java.util.List;
 
 public abstract class Cowtainer<T> {
 	protected Target<T> correctGuess;

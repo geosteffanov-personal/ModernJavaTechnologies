@@ -1,6 +1,8 @@
 package taskManager;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class Task implements Comparable<Task> {
 	private String title;
@@ -8,7 +10,6 @@ public class Task implements Comparable<Task> {
 	private Status status;
 	private int priority;
 	private LocalDate deadline;
-
 	public Task(String title, String description, Status status, int priority, LocalDate deadline) {
 		this.title = title;
 		this.description = description;
@@ -17,6 +18,16 @@ public class Task implements Comparable<Task> {
 		this.deadline = deadline;
 	}
 
+	public Task(String[] parameters) {
+		this.title = parameters[0];
+		this.description = parameters[1];
+		this.status = Status.valueOf(parameters[2]);
+		this.priority = Integer.parseInt(parameters[3]);
+	    this.deadline = LocalDate.parse(parameters[4], DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		
+	}
+
+	
 	@Override
 	public int compareTo(Task task) {
 		if (priority > task.priority)
@@ -84,6 +95,24 @@ public class Task implements Comparable<Task> {
 		return status == Status.DONE;
 	}
 
+	public String formatCSV() {
+		String[] parameters = {
+								title,
+								description,
+								status.toString(),
+								Integer.toString(priority),
+								deadline.toString()
+							};
+		return String.join(",", parameters);
+	}
+	
+	public String toString() {
+		StringBuilder result = new StringBuilder();
+		result.append(title).append(',').append(description).append(',')
+							.append(status).append(',').append(priority).append(',').append(deadline);
+		return result.toString();
+	}
+	
 	public String printTaskInfo() {
 		StringBuilder result = new StringBuilder();
 		result.append(title);

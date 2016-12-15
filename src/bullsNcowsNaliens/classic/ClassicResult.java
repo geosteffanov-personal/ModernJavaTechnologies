@@ -1,8 +1,8 @@
 package bullsNcowsNaliens.classic;
 
-import java.util.Enumeration;
-import java.util.Hashtable;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 
 import bullsNcowsNaliens.Guess;
@@ -17,8 +17,8 @@ public class ClassicResult extends GuessResult<CharRepresentable> {
 		cows = 0;
 		bulls = 0;
 
-		Hashtable<CharRepresentable, Integer> targetArity = new Hashtable<CharRepresentable, Integer>();
-		Hashtable<CharRepresentable, Integer> guessArity = new Hashtable<CharRepresentable, Integer>();
+		Map<CharRepresentable, Integer> targetArity = new HashMap<CharRepresentable, Integer>();
+		Map<CharRepresentable, Integer> guessArity = new HashMap<CharRepresentable, Integer>();
 
 		for (int i = 0; i < target.getSize(); i++) {
 			CharRepresentable current = target.get(i);
@@ -61,9 +61,8 @@ public class ClassicResult extends GuessResult<CharRepresentable> {
 				bulls++;
 			}
 		}
-		
+
 		cows = cows - bulls;
-		System.out.println("\n\n");
 	}
 
 	public ClassicResult(Guess<CharRepresentable> guess, Target<CharRepresentable> target) {

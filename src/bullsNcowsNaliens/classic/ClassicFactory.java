@@ -4,6 +4,7 @@ import bullsNcowsNaliens.GenericFactory;
 import bullsNcowsNaliens.Target;
 
 public class ClassicFactory extends GenericFactory<CharRepresentable> {
+	
 	@Override
 	public String guessTemplate() {
 		return "<a single character>^(guess_length)";
@@ -25,3 +26,4 @@ public class ClassicFactory extends GenericFactory<CharRepresentable> {
 		return result;
 	}
 }
+
