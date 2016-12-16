@@ -17,7 +17,6 @@ import treeArchiver.TreeNode;
 public class TestTreeIterator {
 	TreeIterator<String> iterator;
 	
-	
 	@Before
 	public void setUp() {
 		TreeNode<String> root = TreeNode.<String>getNode("root");
@@ -30,7 +29,7 @@ public class TestTreeIterator {
 		TreeIterator<String> temp = iterator.addChild("nextFolder");
 		temp.addChild("subFolder");
 		temp.addChild("subFolder(2)");
-		temp.getChildIterator(1).addChild("picture.txt");
+		temp.getChildIterator(1).<String>addChild("picture.txt");
 	}
 	@Test
 	public void testBFS() {

@@ -27,6 +27,19 @@ public class Task implements Comparable<Task> {
 		
 	}
 
+	@Override
+	public boolean equals(Object other) {
+		if (other.getClass() != Task.class) {
+			return false;
+		}
+		
+		Task otherTask = (Task) other;
+		return title.equals(otherTask.title) &&
+			   description.equals(otherTask.description) &&
+			   status.equals(otherTask.status) &&
+			   priority == otherTask.priority &&
+			   deadline.equals(otherTask.deadline);
+	}
 	
 	@Override
 	public int compareTo(Task task) {

@@ -1,16 +1,24 @@
 package taskManager;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.FileSystem;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Scanner;
+import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
@@ -19,7 +27,14 @@ import javax.naming.directory.BasicAttribute;
 import javax.naming.directory.BasicAttributes;
 
 public class Menu {
+	private static final int MILLISECONDS = 1000;
+	private static final int SECONDS = 60;
+	private static final int MINUTES = 60;
+	private static final int HOURS = 24;
+	private static final long DAY = HOURS * MINUTES * SECONDS * MILLISECONDS;
 	private static final int THREE_DAYS = 3;
+	private static final String workDirectory = "tests/taskManager/files";
+	private static final String backupDirectory = workDirectory + "/backup";
 	private ToDo toDoList;
 	static boolean b;
 	
@@ -28,8 +43,29 @@ public class Menu {
 		Scanner input = new Scanner(System.in);
 		String path = input.nextLine();	
 		
-		File file = new File("tests/taskManager/" + path);
+		File file = new File(workDirectory + "/" +  path);
+		
 		toDoList.importFromFile(file);
+	}
+
+	private void zipFile(File file, String pathToZip) {
+		try (ZipOutputStream zipStream = new ZipOutputStream(new FileOutputStream(backupDirectory + "/Backup.zip"))) {
+			ZipEntry newFile = new ZipEntry(pathToZip + "/" + file.getName());
+			zipStream.putNextEntry(newFile);
+			FileInputStream in = new FileInputStream(file);
+			int readByte;
+			while((readByte = in.read()) != -1) {
+				zipStream.write(readByte);
+			}
+			zipStream.closeEntry();
+			in.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	private void exportFile() {
@@ -37,9 +73,25 @@ public class Menu {
 		Scanner input = new Scanner(System.in);
 		String path = input.nextLine();
 		
-		File file = new File("tests/taskManager/" + path);
+		File file = new File(workDirectory + "/" + path);
 		if (file.exists() && !file.isDirectory()) {
-			file = new File(path + "_copy");
+			if (System.currentTimeMillis() - file.lastModified() >= DAY) {
+				StringBuilder pathToZip = new StringBuilder();
+				pathToZip.append(LocalDate.now().getYear()).append(".").append(LocalDate.now().getMonthValue()).append(".")
+				                          .append(LocalDate.now().getDayOfMonth());
+				zipFile(file, pathToZip.toString());
+			}
+			else {
+				if (path.charAt(path.length() - 4) == '.') {
+					int dotChar = path.lastIndexOf('.');
+					String fileName = path.substring(0, dotChar);
+					String extension = path.substring(dotChar);
+					file = new File(workDirectory + "/" + fileName + "_copy" + extension);
+				} else {
+					file = new File(workDirectory + "/" + path + "_copy");
+				}
+				
+			}
 		}
 		
 		toDoList.exportToFile(file);
@@ -68,10 +120,6 @@ public class Menu {
 		return "Enter the full pathname to the file you wish to export to\n\n";
 	}
 	
-	private void archiveFile(File file) {
-		
-	}
-
 	private String parseInput(final int input) throws IllegalArgumentException {
 
 		switch (input) {
@@ -97,7 +145,7 @@ public class Menu {
 
 	public Menu(ToDo toDoList) {
 		this.toDoList = toDoList;
-		File backupDir = new File("tests/taskManager/Backup");
+		File backupDir = new File(backupDirectory);
 		if (!backupDir.exists()) {
 			backupDir.mkdir();
 		}

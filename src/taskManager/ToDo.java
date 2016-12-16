@@ -19,7 +19,7 @@ public class ToDo {
 		tasks = new ArrayList<Task>();
 	}
 	
-	public ToDo(ArrayList<Task> tasks) {
+	public ToDo(List<Task> tasks) {
 		this.tasks = tasks;
 	}
 
@@ -98,4 +98,9 @@ public class ToDo {
 			e.printStackTrace();
 		}
 	}
+
+	public int taskNumber() {
+		return tasks.size();
+	}
+
 }

@@ -1,0 +1,7 @@
+task1,description of task1,INITIAL,3,2016-10-20
+task2,description of task2,IN_PROCESS,3,2016-10-20
+task3,description of task3,DONE,4,2016-10-18
+task4,description of task4,INITIAL,5,2016-11-01
+task5,description of task5,IN_PROCESS,2,2016-10-31
+task6,description of task6,IN_PROCESS,1,2016-10-29
+task7,description of task7,INITIAL,2,2016-10-30

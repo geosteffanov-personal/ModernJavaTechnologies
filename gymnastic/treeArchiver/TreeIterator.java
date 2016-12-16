@@ -22,8 +22,7 @@ public class TreeIterator<T> {
 	public T getData() {
 		return root.getData();
 	}
-	
-	
+		
 	public void deleteChild(int index) {
 		root.getChildren().remove(index);
 	}
