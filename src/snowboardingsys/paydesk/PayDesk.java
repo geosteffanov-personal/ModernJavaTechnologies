@@ -1,31 +1,28 @@
 package snowboardingsys.paydesk;
 
-import java.time.LocalDate;
+import java.util.concurrent.Semaphore;
 
 import snowboardingsys.users.User;
 
 public class PayDesk {
 	private final static int STARTING_BALANCE = 0;
 	private int capacity;
-	private int remaining;
+	private Semaphore availableSlots;
 	private int balance = STARTING_BALANCE;
 	private Card[] cards;
 
 	private int issuedCards;
 
 	public PayDesk(int capacity) {
-		this.remaining = capacity;
+		availableSlots = new Semaphore(capacity);
 		this.capacity = capacity;
 		this.issuedCards = 0;
 	}
 
 	public int getRemaining() {
-		return remaining;
+		return availableSlots.availablePermits();
 	}
 
-	public void setRemaining(int remaining) {
-		this.remaining = remaining;
-	}
 
 	public int getBalance() {
 		return balance;
@@ -47,30 +44,18 @@ public class PayDesk {
 		this.cards = cards;
 	}
 
-	public void issueCard(User user) {
-		synchronized (this) {
-			while (remaining <= 0) {
-				try {
-					this.wait();
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-			remaining -= 1;
-			// user.setCard(new Card(user.getName(), LocalDate.now()));
-			setBalance(getBalance() + 51);
-			System.out.println("CURRENT REMAINING: " + remaining);
-			System.out.println("CURRENT BALANCE: " + balance);
-			issuedCards += 1;
-		}
+	public synchronized void issueCard(User user) throws InterruptedException {
+		availableSlots.acquire();
+		// user.setCard(new Card(user.getName(), LocalDate.now()));
+		 setBalance(getBalance() + 51);
+		 issuedCards += 1;
 	}
 
 	public void retrieveCard(User user) {
-		synchronized (this) {
-			remaining += 1;
+		synchronized(this) {
 			setBalance(getBalance() - 1);
-			this.notify();
+			availableSlots.release();
+		this.notify();
 		}
 	}
 

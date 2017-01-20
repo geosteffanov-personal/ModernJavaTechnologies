@@ -78,7 +78,7 @@ public class ThreadFighter implements Runnable , Comparable{
 			if (other.health < 0) {
 				experience += 0.1;
 				other.health = 100 + 2 * (other.level - 1);
-				points += other.level;
+				points += 1;
 			}
 			if (experience >= 1) {
 				level++;

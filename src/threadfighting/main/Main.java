@@ -40,7 +40,7 @@ public class Main {
 			e.printStackTrace();
 		}
 		pit.getResults().values()
-		   .stream()
+		   .parallelStream()
 		   .sorted()
 		   .forEach(t -> System.out.println(t + "\n=============\n"));
 	}

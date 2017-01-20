@@ -63,9 +63,9 @@ public class Main {
 		}
 		
 		
-		System.out.println(desk.getBalance());
 		System.out.println(desk.getIssuedCards());
 		System.out.println("FINAL BALANCE " + vault.getBalance());
+		System.out.println("TOTAL: " + (vault.getBalance() + desk.getBalance()));
 		threadPool.shutdown();
 		
 	}

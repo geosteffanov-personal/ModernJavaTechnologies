@@ -37,7 +37,12 @@ public class User implements Runnable {
 	
 	@Override
 	public void run() {
-		desk.issueCard(this);
+		try {
+			desk.issueCard(this);
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		try {
 			Thread.sleep(250);
 		} catch (InterruptedException e) {
